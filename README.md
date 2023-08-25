@@ -19,7 +19,7 @@ As Shanocast runs in a container, you need to enable access to your X11 server (
 $ xhost +
 ```
 
-There is only one parameter for `docker run` which is the network interface where the server runs. For example to run it on localhost:
+The container can be started like this, the last parameter specifies the network interface where the server runs:
 ```bash
 $ docker run --network host --device /dev/snd --device /dev/dri -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix shanocast lo
 ```
