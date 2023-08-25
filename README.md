@@ -1,6 +1,10 @@
 Shanocast is a Google Chromecast receiver which works with the Google Chrome browser. Demo:
 
-TBD
+
+
+https://github.com/rgerganov/shanocast/assets/271616/51886018-d6be-4d56-beb7-de1c6ad7e284
+
+
 
 # Usage
 
