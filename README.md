@@ -8,7 +8,7 @@ https://github.com/rgerganov/shanocast/assets/271616/51886018-d6be-4d56-beb7-de1
 
 # Usage
 
-Shanocast runs only on Linux and is available as docker image:
+Shanocast runs on Linux and is available as docker image:
 
 ```bash
 $ docker pull rgerganov/shanocast
@@ -26,3 +26,16 @@ $ docker run --network host --device /dev/snd --device /dev/dri -it -e DISPLAY -
 
 Finally, start Google Chrome and Shanocast should be listed as available for casting.
 
+# Building
+
+Build [Openscreen](https://chromium.googlesource.com/openscreen/) with this [patch](shanocast.patch)
+
+# How it works
+
+Shanocast is based on [Openscreen](https://chromium.googlesource.com/openscreen/) which is an open-source implementation of the Google Cast protocol.
+The device authentication is performed with precomputed signatures taken from AirReceiver.
+You can find more information in this [blog post](https://xakcop.com/post/shanocast/).
+
+# What does "shano" mean?
+
+Shano (шано) is a Bulgarian slang word meaning shady or illegal.
