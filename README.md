@@ -28,7 +28,7 @@ Finally, start Google Chrome and Shanocast should be listed as available for cas
 
 # Building
 
-Build [Openscreen](https://chromium.googlesource.com/openscreen/) with this [patch](shanocast.patch)
+Build [Openscreen](https://chromium.googlesource.com/openscreen/) (commit 2a4dbe65) with this [patch](shanocast.patch)
 
 # How it works
 
