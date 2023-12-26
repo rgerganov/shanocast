@@ -1,28 +1,29 @@
 Shanocast is a Google Chromecast receiver which works with the Google Chrome browser. Demo:
 
-
-
 https://github.com/rgerganov/shanocast/assets/271616/51886018-d6be-4d56-beb7-de1c6ad7e284
-
-
 
 # Usage
 
-Shanocast runs on Linux and is available as docker image:
+Shanocast runs on Linux and is reproducible via a Nix Flake
+
+Get Nix and enable flakes, for example via the DetSys Nix installer
+
+```
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
+
+Or if you prefer a single 21M~ file, get a statically compiled Nix binary
+
+```
+curl -L https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/latest/download-by-type/file/binary-dist > nix
+chmod +x ./nix
+```
 
 ```bash
-$ docker pull rgerganov/shanocast
+$ nix run .#shanocast lo
 ```
 
-As Shanocast runs in a container, you need to enable access to your X11 server (use with caution, this has security implications):
-```
-$ xhost +
-```
-
-The container can be started like this, the last parameter specifies the network interface where the server runs:
-```bash
-$ docker run --network host --device /dev/snd --device /dev/dri -it -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix shanocast lo
-```
+the final argument `lo` specifies the network interface where the cast_receiver runs.
 
 Finally, start Google Chrome and Shanocast should be listed as available for casting.
 
