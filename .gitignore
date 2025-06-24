@@ -1,2 +1,7 @@
 # nix results
 *result*
+bin/
+bin/shanocast
+shanocast
+*.crt
+*.key

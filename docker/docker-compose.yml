@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  shanocast:
+    image: beardedtek/shanocast:latest
+    container_name: shanocast
+    network_mode: "host"  # Use host networking to properly detect network interfaces
+    restart: unless-stopped
+    command: ${INTERFACE:-enp42s0}  # Use INTERFACE env var or default to enp42s0
+    # Display and audio access
+    environment:
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+      - XDG_RUNTIME_DIR=/tmp/runtime-dir
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix  # X11 socket
+      - ${XDG_RUNTIME_DIR}/pulse:/tmp/runtime-dir/pulse  # PulseAudio socket
+      - /dev/dri:/dev/dri  # GPU access
+      - /dev/snd:/dev/snd  # ALSA sound devices
+    devices:
+      - /dev/snd:/dev/snd  # Sound devices
+    cap_add:
+      - NET_BIND_SERVICE  # Allow binding to privileged ports
+      - NET_ADMIN  # Allow network interface configuration
+    privileged: true  # Required for full network access
+    group_add:
+      - audio  # Add container to audio group
+      - video  # Add container to video group
+    # Alternatively, you can use the following to specify a different network interface:
+    # command: lo  # For local testing 

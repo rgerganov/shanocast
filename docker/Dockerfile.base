@@ -1,0 +1,40 @@
+FROM fedora:42 AS builder
+
+# Install build dependencies
+RUN dnf -y update && dnf -y install \
+    gcc-c++ \
+    ninja-build \
+    gn \
+    git \
+    python3 \
+    python3-pip \
+    pkg-config \
+    ffmpeg-free-devel \
+    libavcodec-free-devel \
+    libavformat-free-devel \
+    libavutil-free-devel \
+    libswscale-free-devel \
+    SDL2-devel \
+    which \
+    make \
+    cmake \
+    curl \
+    patch
+
+# Create build directory
+WORKDIR /build
+
+# Clone and patch openscreen
+RUN git clone --recurse-submodules https://chromium.googlesource.com/openscreen.git && \
+    cd openscreen && \
+    git checkout 934f2462ad01c407a596641dbc611df49e2017b4
+
+# Copy patch file
+COPY shanocast.patch /build/
+
+# Apply patch
+RUN cd openscreen && \
+    patch -p1 < /build/shanocast.patch
+
+# Set the default command to bash
+CMD ["/bin/bash"] 
