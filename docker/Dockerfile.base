@@ -25,9 +25,10 @@ RUN dnf -y update && dnf -y install \
 WORKDIR /build
 
 # Clone and patch openscreen
-RUN git clone --recurse-submodules https://chromium.googlesource.com/openscreen.git && \
+RUN git clone https://chromium.googlesource.com/openscreen.git && \
     cd openscreen && \
-    git checkout 934f2462ad01c407a596641dbc611df49e2017b4
+    git checkout 934f2462ad01c407a596641dbc611df49e2017b4 && \
+    git submodule update --init --recursive
 
 # Copy patch file
 COPY shanocast.patch /build/

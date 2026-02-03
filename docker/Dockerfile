@@ -7,6 +7,8 @@ RUN cd openscreen && \
     # Fix uninitialized variable warnings in socket code
     sed -i '226s/int domain;/int domain = 0;/' platform/impl/stream_socket_posix.cc && \
     sed -i '106s/int domain;/int domain = 0;/' platform/impl/udp_socket_posix.cc && \
+    # Add -Wno-old-style-definition to zlib BUILD.gn
+    sed -i 's/"-Wno-unknown-warning-option",/"-Wno-unknown-warning-option",\n    "-Wno-old-style-definition",/' third_party/zlib/BUILD.gn && \
     # Create complete symlinks for FFmpeg headers
     mkdir -p /usr/local/include && \
     ln -sf /usr/include/ffmpeg/libavcodec /usr/local/include/ && \
@@ -18,10 +20,9 @@ RUN cd openscreen && \
 RUN cd openscreen && \
     # Apply necessary compiler flags and build settings
     gn gen out/Default --args="is_debug=false use_custom_libcxx=false treat_warnings_as_errors=false have_ffmpeg=true have_libsdl2=true cast_allow_developer_certificate=true is_clang=false" && \
-    # Add FFmpeg include paths and disable specific warnings
+    # Add FFmpeg include paths
     sed -i 's/-I..\/..\"/-I..\/..\"/g' out/Default/toolchain.ninja && \
     sed -i 's/-I..\/..\"/\"-I..\/..\" \"-I\/usr\/local\/include\"/' out/Default/toolchain.ninja && \
-    sed -i 's/-Werror/-Werror -Wno-ignored-attributes -Wno-maybe-uninitialized/' out/Default/toolchain.ninja && \
     # Build with ninja
     ninja -C out/Default cast_receiver && \
     cp out/Default/cast_receiver /build/shanocast
